@@ -14,4 +14,9 @@ jobs:
       SHA: ${{ github.event.pull_request.head.sha }}
     steps:
       - run: echo "$SHA" >> CommitHash.txt
-      - run: echo ${{ env.SHA:0:6 }}
+      - run: |
+        ans=""
+        for i in $SHA
+        do
+          echo "$i"
+        done
