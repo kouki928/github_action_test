@@ -15,7 +15,6 @@ jobs:
     steps:
       - run: echo "$SHA" >> CommitHash.txt
       - run: |
-        ans=""
         for i in $SHA
         do
           echo "$i"
