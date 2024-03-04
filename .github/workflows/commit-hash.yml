@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [open]
+    types: [closed]
 
 jobs:
   generate_commit_hash:
@@ -14,11 +14,4 @@ jobs:
       SHA: ${{ github.event.pull_request.head.sha }}
     steps:
       - run: echo "$SHA" >> CommitHash.txt
-      - run: echo "$SHA"
-      - name: Commit and push changes
-        run: |
-          git config user.name kouki928
-          git config user.email furukawavo@gmail.com
-          git add CommitHash.txt
-          git commit -m "Add short commit hash"
-          git push
+      - run: echo ${{SHA[0]}}
