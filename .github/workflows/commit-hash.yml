@@ -1,0 +1,24 @@
+name: Generate CommitHash.txt
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+jobs:
+  generate_commit_hash:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - run: echo "$SHA" >> CommitHash.txt
+
+      - name: Commit and push changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add CommitHash.txt
+          git commit -m "Add short commit hash"
+          git push
