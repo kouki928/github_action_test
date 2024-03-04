@@ -453,9 +453,5 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-/Hutzper.Application.ProjectModel/Application/config/Hutzper.Solution.ProjectModel.ini
 
-## secret folder
-Hutzper.Project.Mekiki.Test/Insight_test_secret/**
-Hutzper.Project.Mekiki.Test/Insight_test_image/temp/**
 !.gitkeep
