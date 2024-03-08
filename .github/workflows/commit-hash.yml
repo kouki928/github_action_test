@@ -13,4 +13,4 @@ jobs:
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
     steps:
-      - run: echo "${SHA::6}" >> test/test/CommitHash.txt
+      - run: echo "${SHA::6}" >> ../../test/test/CommitHash.txt
