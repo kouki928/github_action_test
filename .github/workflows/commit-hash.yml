@@ -24,15 +24,15 @@ jobs:
         run: git config --global --add safe.directory $(pwd)
 
       - name: Create directory
-        run: mkdir -p Hutzper.Library.FormsMekiki/bin/debug/
+        run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
       - name: Write commit hash
-        run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/debug/CommitHash.txt
+        run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
 
       - name: commit push
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add -f Hutzper.Library.FormsMekiki/bin/debug/CommitHash.txt
+          git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
           git push
