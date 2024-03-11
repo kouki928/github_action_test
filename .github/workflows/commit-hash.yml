@@ -13,5 +13,8 @@ jobs:
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
     steps:
+      - name: Create directory
+        run: mkdir -p path/to/directory
+
       - name: Write commit hash
-        run: echo "${SHA::6}" > /test/test/CommitHash.txt
+        run: echo "${SHA::6}" > path/to/directory/CommitHash.txt
