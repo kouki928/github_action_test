@@ -13,6 +13,17 @@ jobs:
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
     steps:
+      # push 用の token を取得
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      
+      # 安全な directory であると明記
+      - name: safe dirctory
+        run: git config --global --add safe.directory $(pwd)
+
       - name: Create directory
         run: mkdir -p test/test/
 
