@@ -22,7 +22,6 @@ mono_crash.*
 [Rr]elease/
 [Rr]eleases/
 x64/
-!**/CommitHash.txt
 x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
@@ -453,3 +452,6 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 !.gitkeep
+
+bin/
+!Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
