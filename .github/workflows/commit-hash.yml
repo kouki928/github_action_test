@@ -23,8 +23,8 @@ jobs:
       - name: safe dirctory
         run: git config --global --add safe.directory $(pwd)
 
-      - name: Create directory
-        run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
+      # - name: Create directory
+      #   run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
       - name: Write commit hash
         run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
