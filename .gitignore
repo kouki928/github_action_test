@@ -453,5 +453,5 @@ $RECYCLE.BIN/
 
 !.gitkeep
 
-
-Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
+bin/
+!Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
