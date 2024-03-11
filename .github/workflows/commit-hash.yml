@@ -25,10 +25,10 @@ jobs:
         run: git config --global --add safe.directory $(pwd)
 
       - name: Create directory
-        run: mkdir -p test/test/
+        run: mkdir -p Hutzper.Library.FormsMekiki/x64/
 
       - name: Write commit hash
-        run: echo "${SHA::6}" > test/test/CommitHash.txt
+        run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/x64/CommitHash.txt
 
       - name: commit push
         run: |
