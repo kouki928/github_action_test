@@ -452,6 +452,3 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 !.gitkeep
-
-Hutzper.Library.FormsMekiki/bin/
-!Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
