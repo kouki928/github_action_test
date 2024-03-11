@@ -13,6 +13,16 @@ jobs:
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
     steps:
+      - name: Create directory
+        run: mkdir -p test/test/
 
       - name: Write commit hash
-        run: echo "${SHA::6}" > ./test/test/CommitHash.txt
+        run: echo "${SHA::6}" > test/test/CommitHash.txt
+
+      - name: commit push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add test/test/CommitHash.txt
+          git commit -m "Add short commit hash"
+          git push
