@@ -2,11 +2,13 @@ name: Generate CommitHash.txt
 
 on:
   pull_request:
-    branches: [main]
+    branches: 
+      - main
+    paths-ignore:
+      - "**/CommitHash.txt"
 
 jobs:
   generate_commit_hash:
-    if: github.actor != 'github-actions'
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
