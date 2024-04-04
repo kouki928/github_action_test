@@ -42,7 +42,7 @@ jobs:
 
       - name: Commit and push
         run: |
-          if [ "$(steps.check_file.outputs.check_file)" != "File exists" ]; then
+          if [ "$(steps.check_file.outputs.check_file)" == "File exists" ]; then
             git config user.name github-actions
             git config user.email github-actions@github.com
             git config advice.addIgnoredFile false
