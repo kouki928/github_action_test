@@ -23,6 +23,17 @@ jobs:
         with:
           fetch-depth: 1
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Check file existence
+        id: check_files
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "CommitHash.txt"
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'true'
+        # Only runs if all of the files exists
+        run: echo All files exists!
       
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
@@ -37,4 +48,4 @@ jobs:
           git config advice.addIgnoredFile false
           git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
-          git push origin HEAD:${{ github.head_ref }} --force
+          # git push origin HEAD:${{ github.head_ref }} --force
