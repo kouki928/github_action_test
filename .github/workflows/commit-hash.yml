@@ -1,18 +1,16 @@
 name: Generate CommitHash.txt
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [main]
 
 jobs:
   generate_commit_hash:
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && github.event.head_commit.message != 'Merge pull request'
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
-    steps:
 
+    steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -28,6 +26,10 @@ jobs:
       - name: Write commit hash
         run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
 
+      - name: Get current branch name
+        id: branch_name
+        run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
+
       - name: commit push
         run: |
           git config user.name github-actions
@@ -35,3 +37,4 @@ jobs:
           git config advice.addIgnoredFile false
           git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }} --force
