@@ -24,17 +24,29 @@ jobs:
       - name: safe dirctory
         run: git config --global --add safe.directory $(pwd)
 
-      - name: Create directory
-        run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
+      - name: Check if directory exists
+        run: test -d "Hutzper.Library.FormsMekiki/bin/x64/" && echo "Directory exists" || echo "Directory does not exist"
+        id: check_directory
 
-      - name: Write commit hash
-        run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
-
-      - name: commit push
+      - name: Create directory if not exists and write commit hash
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git config advice.addIgnoredFile false
-          git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
-          git commit -m "Add short commit hash"
-          git push origin HEAD:${{ github.head_ref }} --force
+          if [ ! -d "Hutzper.Library.FormsMekiki/bin/x64/" ]; then
+            mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
+            echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
+          fi
+        if: steps.check_directory.outputs.check_directory == 'Directory does not exist'
+
+      - name: Check if CommitHash.txt exists
+        run: test -f "Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt" && echo "File exists" || echo "File does not exist"
+        id: check_file
+
+      - name: Commit and push
+        run: |
+          if [ "$(steps.check_file.outputs.check_file)" == "File exists" ]; then
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git config advice.addIgnoredFile false
+            git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
+            git commit -m "Add short commit hash"
+            git push origin HEAD:${{ github.head_ref }} --force
+          fi
