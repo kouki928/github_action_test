@@ -1,34 +1,26 @@
-name: Generate CommitHash.txt
+name: format_and_commit
 
 on:
   pull_request:
-    branches: [main]
-    types: [closed]  
-
+    types: [closed]
+permissions: write-all
 jobs:
-  generate_commit_hash:
-    if: github.event.pull_request.merged == false
-    runs-on: ubuntu-latest
-    env:
-      SHA: ${{ github.event.pull_request.head.sha }}
-
+  formatter:
+    runs-on: windows-latest
     steps:
-      - name: Checkout
+      - name: Checktest
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      
-      - name: Create directory
-        run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
-
-      - name: Write commit hash
-        run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
-
-      - name: commit push
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Install dotnet-format
+        run: dotnet tool install -g dotnet-format
+      - name: Format code
+        run: dotnet format
+      - name: Auto-commit if changes
         run: |
-          git config user.name github-actions
-          git config user.email action@github.com
-          git config advice.addIgnoredFile false
-          git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
-          git commit -m "Add short commit hash"
-          git push origin HEAD:${{ github.head_ref }} --force
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add .
+          git commit -m "Apply Code Formatter Change"
+          git push
