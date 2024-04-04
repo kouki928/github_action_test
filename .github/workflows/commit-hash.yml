@@ -46,4 +46,4 @@ jobs:
           git config advice.addIgnoredFile false
           git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
-          git push origin HEAD:${{ github.head_ref }} --force
+          # git push origin HEAD:${{ github.head_ref }} --force
