@@ -26,6 +26,10 @@ jobs:
       - name: Write commit hash
         run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
 
+      - name: Get current branch name
+        id: branch_name
+        run: echo "::set-output name=branch::$(git rev-parse --abbrev-ref HEAD)"
+
       - name: commit push
         run: |
           git config user.name github-actions
