@@ -2,14 +2,13 @@ name: Generate CommitHash.txt
 
 on:
   pull_request:
+    types: [closed]
     branches: 
       - main
-    paths-ignore:
-      - "**/CommitHash.txt"
 
 jobs:
   generate_commit_hash:
-    if: github.actor != 'github-actions' && github.event_name != 'pull_request_target'
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
@@ -18,19 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 1
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-
-      - name: Check file existence
-        id: check_files
-        uses: andstor/file-existence-action@v3
-        with:
-          files: "CommitHash.txt"
-
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'true'
-        # Only runs if all of the files exists
-        run: echo All files exists!
       
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
