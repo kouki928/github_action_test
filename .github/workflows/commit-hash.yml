@@ -2,9 +2,8 @@ name: Generate CommitHash.txt
 
 on:
   pull_request:
-    types: [closed]
-    branches: 
-      - main
+    branches: [main]
+    types: [closed]  
 
 jobs:
   generate_commit_hash:
