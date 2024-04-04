@@ -1,13 +1,11 @@
 name: Generate CommitHash.txt
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened]
 
 jobs:
   generate_commit_hash:
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && github.event.head_commit.message != 'Merge pull request'
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
@@ -35,3 +33,4 @@ jobs:
           git config advice.addIgnoredFile false
           git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
+          git push
