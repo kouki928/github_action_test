@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
-    steps:
 
+    steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -33,4 +33,4 @@ jobs:
           git config advice.addIgnoredFile false
           git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
-          git push origin ${{ steps.branch_name.outputs.branch }}
+          git push origin HEAD:${{ steps.branch_name.outputs.branch }}
