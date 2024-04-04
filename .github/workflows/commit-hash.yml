@@ -33,4 +33,4 @@ jobs:
           git config advice.addIgnoredFile false
           git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
-          git push
+          git push origin ${{ steps.branch_name.outputs.branch }}
