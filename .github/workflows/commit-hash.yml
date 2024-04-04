@@ -2,7 +2,6 @@ name: format_and_commit
 
 on:
   pull_request:
-    types: [closed]
     branches: [main]
 
 permissions: write-all
@@ -41,4 +40,4 @@ jobs:
           git config user.name "GitHub Action"
           git add .
           git commit -m "Apply CommitHash.txt"
-          # git push
+          git push
