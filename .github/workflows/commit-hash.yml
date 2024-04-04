@@ -29,9 +29,9 @@ jobs:
       - name: Write commit hash
         run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
 
-      - name: Get release branch name
-        id: get_branch
-        run: echo "RELEASE_BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      # - name: Get release branch name
+      #   id: get_branch
+      #   run: echo "RELEASE_BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
       - name: commit push
         run: |
@@ -40,4 +40,4 @@ jobs:
           git config advice.addIgnoredFile false
           git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Add short commit hash"
-          git push origin HEAD:${{ github.ref_name }} --force
+          git push origin HEAD:${{ github.ref }} --force
