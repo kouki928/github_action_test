@@ -2,7 +2,7 @@ name: format_and_commit
 
 on:
   pull_request:
-    types: [closed]
+    type: [closed]
 permissions: write-all
 jobs:
   formatter:
