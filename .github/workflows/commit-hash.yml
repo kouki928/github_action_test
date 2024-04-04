@@ -24,7 +24,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      
+      - name: Get last committer username
+        run: echo Last committer is $(git log -1 --pretty=format:'%an')
       
       # 安全な directory であると明記
       - name: safe dirctory
