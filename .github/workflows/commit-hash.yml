@@ -1,7 +1,7 @@
 name: Generate CommitHash.txt
 
 on:
-  push:
+  pull_request:
     branches: 
       - main
     paths-ignore:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   generate_commit_hash:
+    if: github.actor != 'github-actions'
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
