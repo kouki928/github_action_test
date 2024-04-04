@@ -18,6 +18,9 @@ jobs:
       SHA: ${{ github.event.pull_request.head.sha }}
 
     steps:
+      - name: Check Actor
+        run: echo ${{ github.actor }}
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
