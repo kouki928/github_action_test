@@ -24,16 +24,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       
-      - name: Get last committer username
-        run: echo Last committer is $(git log -1 --pretty=format:'%an')
+      - name: Check if directory exists
+        run: |
+          if [ -d "Hutzper.Library.FormsMekiki/bin/x64/" ]; then
+            echo "Directory already exists, skipping creation"
+            exit 0
+          else
+            echo "Directory does not exist, creating..."
+          fi
       
-      # 安全な directory であると明記
-      - name: safe dirctory
-        run: git config --global --add safe.directory $(pwd)
-
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
