@@ -18,23 +18,11 @@ jobs:
       SHA: ${{ github.event.pull_request.head.sha }}
 
     steps:
-      - name: Check Actor
-        run: echo ${{ github.actor }}
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      
-      - name: Check if directory exists
-        run: |
-          if [ -d "Hutzper.Library.FormsMekiki/bin/x64/" ]; then
-            echo "Directory already exists, skipping creation"
-            exit 0
-          else
-            echo "Directory does not exist, creating..."
-          fi
       
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
