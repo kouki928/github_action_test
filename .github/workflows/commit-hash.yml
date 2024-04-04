@@ -23,6 +23,12 @@ jobs:
       - name: Check name
         run: echo ${{ github.actor }}
 
+      - name: Check pusher
+        run : echo "pusher is ${{ github.event.pusher.name }}"
+
+      - name: Commit Message
+        run : echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s')"
+
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
@@ -35,4 +41,4 @@ jobs:
           git config user.name "GitHub Action"
           git add .
           git commit -m "Apply CommitHash.txt"
-          git push
+          # git push
