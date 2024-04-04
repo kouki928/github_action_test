@@ -22,7 +22,7 @@ jobs:
       
       - name: Check name
         run: echo ${{ github.actor }}
-      
+
       - name: Check pusher
         run : echo "pusher is ${{ github.event.pusher.name }}"
 
