@@ -6,21 +6,28 @@ on:
 permissions: write-all
 jobs:
   formatter:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    env:
+      SHA: ${{ github.event.pull_request.head.sha }}
+
     steps:
       - name: Checktest
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Install dotnet-format
-        run: dotnet tool install -g dotnet-format
-      - name: Format code
-        run: dotnet format
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Create directory
+        run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
+
+      - name: Write commit hash
+        run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
+
       - name: Auto-commit if changes
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git add .
-          git commit -m "Apply Code Formatter Change"
+          git commit -m "Apply CommitHash.txt"
           git push
