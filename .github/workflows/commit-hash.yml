@@ -2,7 +2,9 @@ name: format_and_commit
 
 on:
   pull_request:
-    type: [closed]
+    branches: [main]
+    paths:
+      - '!**/bin/x64/**'
 
 jobs:
   formatter:
