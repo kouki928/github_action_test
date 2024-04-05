@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
-      ACTOR: ${{ github.triggering_actor }}
-    
-    if: ${{ github.actor != '' }}
 
     steps:
       # token の取得
@@ -22,46 +19,40 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Get actor
-        run: |
-          echo ${{ github.actor }}
-          echo ${{ github.triggering_actor }}
-      
       # 直前の Commit をした username を取得
-      - name: Get last commit author name
-        run: |
-          echo "LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+      # - name: Get last commit author name
+      #   run: |
+      #     echo "LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
       
       # user による Commit であるか判定
-      - name: Check if it is necessary
-        run: |
-          echo $LAST_COMMIT_AUTHOR_NAME
-          if [[ $LAST_COMMIT_AUTHOR_NAME == 'GitHub Action' ]] ; then
-            echo "Last commiter is Github_Action."
-            echo "committed_by_user=0" >> $GITHUB_ENV
-          else
-            echo "Committed by user"
-            echo "committed_by_user=1" >> $GITHUB_ENV
-          fi
+      # - name: Check if it is necessary
+      #   run: |
+      #     echo $LAST_COMMIT_AUTHOR_NAME
+      #     if [[ $LAST_COMMIT_AUTHOR_NAME == 'GitHub Action' ]] ; then
+      #       echo "Last commiter is Github_Action."
+      #       echo "committed_by_user=0" >> $GITHUB_ENV
+      #     else
+      #       echo "Committed by user"
+      #       echo "committed_by_user=1" >> $GITHUB_ENV
+      #     fi
 
       # 安全な directory であると明記
       - name: safe dirctory
-        if : ${{ env.committed_by_user == 1 }}
         run: git config --global --add safe.directory $(pwd)
       
-      # 作らないとエラーが出る
+      # 作らないとエラーが出る時がある
       - name: Create directory
-        if : ${{ env.committed_by_user == 1 }}
+        # if : ${{ env.committed_by_user == 1 }}
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
       
       # 書き込み
       - name: Write commit hash
-        if : ${{ env.committed_by_user == 1 }}
+        # if : ${{ env.committed_by_user == 1 }}
         run: echo "${SHA::7}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
       
       # .ignore で除去されるため、 -f で強制的に実行
       - name: commit push
-        if : ${{ env.committed_by_user == 1 }}
+        # if : ${{ env.committed_by_user == 1 }}
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
