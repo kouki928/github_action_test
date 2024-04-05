@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths-ignore:
-      - 'bin/**'
+      - '**/*.txt'
 
 jobs:
   formatter:
@@ -24,7 +24,7 @@ jobs:
       - name: Get last commit info
         run: |
           echo "LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
-          
+
       - name: Check if it is necessary
         run: |
           echo $LAST_COMMIT_AUTHOR_NAME
