@@ -26,22 +26,22 @@ jobs:
           echo $LAST_COMMIT_AUTHOR_NAME
           if [[ $LAST_COMMIT_AUTHOR_NAME == 'GitHub Action' ]] ; then
             echo "Last commiter is Github_Action."
-            echo "::set-output name=commit_by_github_action::true"
+            echo "committed_by_user=0" >> $GITHUB_ENV
           else
             echo "Committed by user"
-            echo "::set-output name=commit_by_github_action::false"
+            echo "committed_by_user=1" >> $GITHUB_ENV
           fi
       
       - name: Create directory
-        if : ${{ !env.commit_by_github_action }}
+        if : ${{ env.committed_by_user == 1 }}
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
       - name: Write commit hash
-        if : ${{ !env.commit_by_github_action }}
+        if : ${{ env.committed_by_user == 1 }}
         run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
 
       - name: Auto-commit if changes
-        if : ${{ !env.commit_by_github_action }}
+        if : ${{ env.committed_by_user == 1 }}
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
