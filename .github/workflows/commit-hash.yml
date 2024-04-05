@@ -2,9 +2,7 @@ name: format_and_commit
 
 on:
   pull_request:
-    branches: [main]
-    paths-ignore:
-      - '**/bin/x64/**'
+    type: [closed]
 
 jobs:
   formatter:
@@ -13,7 +11,6 @@ jobs:
       SHA: ${{ github.event.pull_request.head.sha }}
 
     steps:
-
       - name: Checktest
         uses: actions/checkout@v3
         with:
