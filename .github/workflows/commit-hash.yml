@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
+      file: ${{ github.event.pull_request.changed_files }}
 
     if: github.event_name == 'pull_request' && !contains(github.event.pull_request.changed_files, 'bin/x64/')
 
@@ -22,7 +23,7 @@ jobs:
 
       - name: change files
         run :
-          echo ${{ github.event.pull_request.changed_files }}
+          echo ${{ env.file }}
 
       - name: Get last commit info
         run: |
