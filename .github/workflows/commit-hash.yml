@@ -24,7 +24,7 @@ jobs:
       - name: Check if it is necessary
         run: |
           echo $LAST_COMMITTER_NAME
-          if $LAST_COMMIT_AUTHOR_NAME == 'GitHub Action' ; then
+          if [[ $LAST_COMMIT_AUTHOR_NAME == 'GitHub Action' ]] ; then
             echo "Last commiter is Github_Action."
             exit 1
           else
