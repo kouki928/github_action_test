@@ -3,17 +3,16 @@ name: format_and_commit
 on:
   pull_request:
     branches: [main]
+    paths-ignore:
+      - 'bin/**'
 
 jobs:
   formatter:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
-      commit_message: ${{ github.event.head_commit.message }}
 
     steps:
-      - name: message
-        run : echo ${{ env.commit_message }}
 
       - name: Checktest
         uses: actions/checkout@v3
@@ -22,10 +21,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - name: Get last commit author name
+      - name: Get last commit info
         run: |
           echo "LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
-      
+          
       - name: Check if it is necessary
         run: |
           echo $LAST_COMMIT_AUTHOR_NAME
