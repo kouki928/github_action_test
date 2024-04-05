@@ -38,7 +38,7 @@ jobs:
 
       - name: Write commit hash
         if : ${{ env.committed_by_user == 1 }}
-        run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
+        run: echo "${SHA::7}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
 
       - name: Auto-commit if changes
         if : ${{ env.committed_by_user == 1 }}
