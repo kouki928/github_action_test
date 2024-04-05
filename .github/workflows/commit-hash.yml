@@ -3,16 +3,18 @@ name: format_and_commit
 on:
   pull_request:
     branches: [main]
-  merge_group:
-    types: [checks_requested]
 
 jobs:
   formatter:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
-  
+      commit_message: ${{ github.event.head_commit.message }}
+
     steps:
+      - name: message
+        run : echo ${{ env.commit_message }}
+
       - name: Checktest
         uses: actions/checkout@v3
         with:
