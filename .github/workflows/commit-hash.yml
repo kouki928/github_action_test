@@ -3,6 +3,9 @@ name: format_and_commit
 on:
   pull_request:
     branches: [main]
+  merge_group:
+    types: [checks_requested]
+
 jobs:
   formatter:
     runs-on: ubuntu-latest
