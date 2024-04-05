@@ -14,6 +14,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Get last commit author name
@@ -40,6 +41,6 @@ jobs:
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
-          git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
+          git add .
           git commit -m "Apply CommitHash.txt"
           git push
