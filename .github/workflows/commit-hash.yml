@@ -1,16 +1,16 @@
-name: format_and_commit
+name: commit hash
 
 on:
   pull_request:
     branches: [main]
-    paths:
-      - '**/bin/x64/**'
 
 jobs:
   formatter:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
+
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && contains(github.event.pull_request.changed_files, 'bin/x64/')
 
     steps:
       - name: Checktest
