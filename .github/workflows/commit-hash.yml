@@ -22,10 +22,10 @@ jobs:
       - name: Check if it is necessary
         run: |
           echo $LAST_COMMITTER_NAME
-          # if <$LAST_COMMIT_AUTHOR_NAME == 'GitHub Action'> ; then
-          #   echo "Last commiter is Github_Action."
-          #   exit 1
-          # fi
+          if $LAST_COMMIT_AUTHOR_NAME == 'GitHub Action' ; then
+            echo "Last commiter is Github_Action."
+            exit 1
+          fi
 
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
@@ -39,4 +39,4 @@ jobs:
           git config user.name "GitHub Action"
           git add .
           git commit -m "Apply CommitHash.txt"
-          # git push
+          git push
