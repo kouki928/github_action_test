@@ -24,7 +24,7 @@ jobs:
 
       - name: Changed Files
         uses: tj-actions/changed-files@v44
-        
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v44
@@ -60,9 +60,9 @@ jobs:
             echo "committed_by_user=1" >> $GITHUB_ENV
           fi
       
-      - name: Create directory
-        if : ${{ env.committed_by_user == 1 }}
-        run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
+      # - name: Create directory
+      #   if : ${{ env.committed_by_user == 1 }}
+      #   run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
       - name: Write commit hash
         if : ${{ env.committed_by_user == 1 }}
