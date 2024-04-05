@@ -10,7 +10,7 @@ jobs:
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
 
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && !contains(github.event.pull_request.changed_files, '**/bin/x64/**.txt')
+    if: github.event_name == 'pull_request' && !contains(github.event.pull_request.changed_files, '**/bin/x64/**.txt')
 
     steps:
       - name: Checktest
