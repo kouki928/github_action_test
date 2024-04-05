@@ -1,54 +1,38 @@
-name: commit hash
+name: Generate CommitHash.txt
 
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  formatter:
+  generate_commit_hash:
     runs-on: ubuntu-latest
-    
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
-      file: ${{ github.event.pull_request.changed_files }}
-
-    if: github.event_name == 'pull_request' && !contains(github.event.pull_request.changed_files, 'bin/x64/')
+      ACTOR: ${{ github.triggering_actor }}
+    
+    if: ${{ github.actor != '' }}
 
     steps:
-      - name: Checktest
+      # token の取得
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-
-      - name: Changed Files
-        uses: tj-actions/changed-files@v44
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v44
-        # To compare changes between the current commit and the last pushed remote commit set `since_last_remote_commit: true`. e.g
-        # with:
-        #   since_last_remote_commit: true 
-
-      - name: List all changed files
-        env:
-          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-        run: |
-          for file in ${ALL_CHANGED_FILES}; do
-            echo "$file was changed"
-          done
       
-
-      - name: change files
-        run :
-          echo ${{ env.file }}
-
-      - name: Get last commit info
+      - name: Get actor
+        run: |
+          echo ${{ github.actor }}
+          echo ${{ github.triggering_actor }}
+      
+      # 直前の Commit をした username を取得
+      - name: Get last commit author name
         run: |
           echo "LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
-
+      
+      # user による Commit であるか判定
       - name: Check if it is necessary
         run: |
           echo $LAST_COMMIT_AUTHOR_NAME
@@ -59,20 +43,28 @@ jobs:
             echo "Committed by user"
             echo "committed_by_user=1" >> $GITHUB_ENV
           fi
-      
-      # - name: Create directory
-      #   if : ${{ env.committed_by_user == 1 }}
-      #   run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
+      # 安全な directory であると明記
+      - name: safe dirctory
+        if : ${{ env.committed_by_user == 1 }}
+        run: git config --global --add safe.directory $(pwd)
+      
+      # 作らないとエラーが出る
+      - name: Create directory
+        if : ${{ env.committed_by_user == 1 }}
+        run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
+      
+      # 書き込み
       - name: Write commit hash
         if : ${{ env.committed_by_user == 1 }}
         run: echo "${SHA::7}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
-
-      - name: Auto-commit if changes
+      
+      # .ignore で除去されるため、 -f で強制的に実行
+      - name: commit push
         if : ${{ env.committed_by_user == 1 }}
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
-          git add .
-          git commit -m "Apply CommitHash.txt"
+          git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
+          git commit -m "Add short commit hash"
           git push
