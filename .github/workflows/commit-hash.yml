@@ -19,13 +19,11 @@ jobs:
 
       - name: Get last commit author name
         run: |
-          echo "LAST_COMMITTER_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+          echo "LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
       
       - name: Check if it is necessary
         run: |
-          echo $LAST_COMMITTER_NAME
-          echo [[ $LAST_COMMITER_NAME == 'GitHub Action' ]]
-          echo [[ $LAST_COMMITER_NAME == GitHub Action ]]
+          echo $LAST_COMMIT_AUTHOR_NAME
           if [[ $LAST_COMMIT_AUTHOR_NAME == GitHub Action]] ; then
             echo "Last commiter is Github_Action."
             exit 1
