@@ -40,6 +40,6 @@ jobs:
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
-          git add .
+          git add -f Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
           git commit -m "Apply CommitHash.txt"
           git push
