@@ -40,4 +40,4 @@ jobs:
           git config user.name "GitHub Action"
           git add .
           git commit -m "Apply CommitHash.txt"
-          # git push
+          git push
