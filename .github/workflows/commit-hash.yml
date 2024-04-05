@@ -13,20 +13,19 @@ jobs:
       - name: Checktest
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      
-      - name: Check name
-        run: echo ${{ github.actor }}
-
-      - name: Check pusher
-        run : echo "pusher is ${{ github.event.before }}"
 
       - name: Get last commit author name
         run: |
-          git log -1 --pretty=format:'%an'
-        id: last_commit_author_name
+          LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')
+          echo "LAST_COMMIT_AUTHOR_NAME=$LAST_COMMIT_AUTHOR_NAME" >> $GITHUB_ENV
+      
+      - name: Check if it is necessary
+        run: |
+          if <$LAST_COMMIT_AUTHOR_NAME == 'GitHub Action'> ; then
+            echo "Last commiter is Github_Action."
+            exit 1
+          fi
 
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
@@ -40,4 +39,4 @@ jobs:
           git config user.name "GitHub Action"
           git add .
           git commit -m "Apply CommitHash.txt"
-          git push
+          # git push
