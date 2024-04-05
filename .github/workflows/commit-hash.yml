@@ -2,16 +2,13 @@ name: format_and_commit
 
 on:
   pull_request:
-    types: [closed]
     branches: [main]
-
-permissions: write-all
 jobs:
   formatter:
     runs-on: ubuntu-latest
     env:
       SHA: ${{ github.event.pull_request.head.sha }}
-
+  
     steps:
       - name: Checktest
         uses: actions/checkout@v3
@@ -19,26 +16,35 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Get last commit author name
+        run: |
+          echo "LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
       
-      - name: Check name
-        run: echo ${{ github.actor }}
-
-      - name: Check pusher
-        run : echo "pusher is ${{ github.event.pusher.name }}"
-
-      - name: Commit Message
-        run : echo "COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s')"
-
+      - name: Check if it is necessary
+        run: |
+          echo $LAST_COMMIT_AUTHOR_NAME
+          if [[ $LAST_COMMIT_AUTHOR_NAME == 'GitHub Action' ]] ; then
+            echo "Last commiter is Github_Action."
+            echo "committed_by_user=0" >> $GITHUB_ENV
+          else
+            echo "Committed by user"
+            echo "committed_by_user=1" >> $GITHUB_ENV
+          fi
+      
       - name: Create directory
+        if : ${{ env.committed_by_user == 1 }}
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
 
       - name: Write commit hash
+        if : ${{ env.committed_by_user == 1 }}
         run: echo "${SHA::6}" > Hutzper.Library.FormsMekiki/bin/x64/CommitHash.txt
 
       - name: Auto-commit if changes
+        if : ${{ env.committed_by_user == 1 }}
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git add .
           git commit -m "Apply CommitHash.txt"
-          # git push
+          git push
