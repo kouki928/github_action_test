@@ -17,15 +17,15 @@ jobs:
 
       - name: Get last commit author name
         run: |
-          LAST_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:'%an')
-          echo "LAST_COMMIT_AUTHOR_NAME=$LAST_COMMIT_AUTHOR_NAME" >> $GITHUB_ENV
+          echo "LAST_COMMITTER_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
       
       - name: Check if it is necessary
         run: |
-          if <$LAST_COMMIT_AUTHOR_NAME == 'GitHub Action'> ; then
-            echo "Last commiter is Github_Action."
-            exit 1
-          fi
+          echo $LAST_COMMITTER_NAME
+          # if <$LAST_COMMIT_AUTHOR_NAME == 'GitHub Action'> ; then
+          #   echo "Last commiter is Github_Action."
+          #   exit 1
+          # fi
 
       - name: Create directory
         run: mkdir -p Hutzper.Library.FormsMekiki/bin/x64/
