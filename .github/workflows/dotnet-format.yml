@@ -1,0 +1,16 @@
+name: dotnet-format
+
+on: 
+    pull_request:
+        branches: [main]
+
+jobs:
+    formatter:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: dotnet check
+              run: dotnet --version
+
+            - name: 改行コード1
+              run: od -c .gitignore
