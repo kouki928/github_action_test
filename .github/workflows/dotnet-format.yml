@@ -10,4 +10,7 @@ jobs:
 
         steps:
             - name: dotnet check
-              run: dotnet-format --version
+              run: dotnet --version
+
+            - name: 改行コード
+              run: od -c Hutzper.Library.FormsMekiki/task/test.py
